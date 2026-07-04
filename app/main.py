@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from datetime import datetime
 import requests
-
+from fastapi.exceptions import HTTPException
 
 
 
@@ -29,7 +29,6 @@ def listar_tarefas():
         return LISTA_TAREFAS
 
     tarefas = []
-    
     for tarefa in LISTA_TAREFAS:
         info = {"id": tarefa['id'], "titulo": tarefa['titulo']}
         tarefas.append(info)
@@ -50,7 +49,8 @@ def criar_tarefa(id: int, titulo: str, descricao: str):
 
     for tarefa in LISTA_TAREFAS:
         if tarefa['id'] == id:
-            return {"mensagem": "TAREFA JÁ EXISTE"}
+            ex = HTTPException(status_code=202, detail={"mensagem": "TAREFA JÁ EXISTE!"})
+            raise ex
 
     tarefa_criada = nova_tarefa(id, titulo, descricao)
     LISTA_TAREFAS.append(tarefa_criada)
@@ -68,7 +68,8 @@ def atualizar_tarefa(id: int, titulo: str = "", descricao: str = "", concluido: 
                 tarefa['concluido'] = concluido
 
             if concluido == True:
-                requests.post(f"http://localhost:8002/notificar?titulo={tarefa['titulo']}&data_finalizacao={datetime.now()}")
+                requests.post(f"http://localhost:8002/notificar?titulo={tarefa['titulo']}&data_finalizacao={datetime.now()}",
+                timeout=10)
 
             return {"mensagem": "OK"}
 
