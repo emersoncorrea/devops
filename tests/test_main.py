@@ -30,8 +30,8 @@ def test_criar_tarefa_ja_existente():
         params={"id": 2, "titulo": "Estudar", "descricao": "Estudar FastAPI"},
     )
 
-    assert requisicao.status_code == 200
-    assert requisicao.json() ==  {"mensagem": "TAREFA JÁ EXISTE"}
+    assert requisicao.status_code == 202
+    assert requisicao.json()['detail'] == {"mensagem": "TAREFA JÁ EXISTE!"}
 
 
 
