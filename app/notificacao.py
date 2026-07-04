@@ -9,6 +9,9 @@ APP_NOTIFICACAO = FastAPI()
 #def listar_notificacoes():
 #    return NOTIFICACOES
 
+@APP_NOTIFICACAO.get("/notificar")
+def listar_notificacoes():
+    return NOTIFICACOES
 
 @APP_NOTIFICACAO.post("/notificar")
 def notificar(titulo: str, data_finalizacao: datetime):
