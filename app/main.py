@@ -20,6 +20,10 @@ def nova_tarefa(id: int, titulo: str, descricao: str):
 def index():
     return "Olá, DevOps!"
 
+@APP.get("/health")
+def health():
+    return {"status": "OK"}
+
 @APP.get("/tarefas")
 def listar_tarefas():
     # Lista tarefas (somente id e titulo)
