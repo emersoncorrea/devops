@@ -1,9 +1,37 @@
-def soma(a, b):
-    return a + b
+from fastapi.testclient import TestClient
+from app import APP
 
-def test_soma_positivos():
-    assert soma(4, 4) == 8
+CLIENT = TestClient(APP)
 
-def test_soma_errada():
-    assert soma(3, 7) == 8
-    
+def test_index():
+    requisicao = CLIENT.get("/")
+
+    assert requisicao.status_code == 200
+    assert requisicao.json() == "Olá, DevOps!"
+
+def test_criar_tarefa():
+    requisicao = CLIENT.post(
+        "/tarefas",
+        params={"id": 1, "titulo": "Estudar", "descricao": "Estudar FastAPI"},
+    )
+
+    assert requisicao.status_code == 200
+    assert requisicao.json() == {"mensagem": "OK"}
+
+
+def test_criar_tarefa_ja_existente():
+    CLIENT.post(
+        "/tarefas",
+        params={"id": 2, "titulo": "Estudar", "descricao": "Estudar FastAPI"},
+    )
+
+    requisicao = CLIENT.post(
+        "/tarefas",
+        params={"id": 2, "titulo": "Estudar", "descricao": "Estudar FastAPI"},
+    )
+
+    assert requisicao.status_code == 200
+    assert requisicao.json() ==  {"mensagem": "TAREFA JÁ EXISTE"}
+
+
+
