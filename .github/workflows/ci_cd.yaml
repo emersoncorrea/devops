@@ -4,7 +4,8 @@ on:
   # Habilita botão na interface Web para acionar manualmente a pipeline
   workflow_dispatch:
   push:
-    branch: [main]
+    branches: 
+      - main
 
 jobs:
   integracao:
