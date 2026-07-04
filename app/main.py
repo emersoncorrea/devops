@@ -3,8 +3,6 @@ from datetime import datetime
 import requests
 from fastapi.exceptions import HTTPException
 
-
-
 LISTA_TAREFAS = []
 APP = FastAPI()
 
