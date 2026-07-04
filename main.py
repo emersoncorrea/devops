@@ -68,7 +68,7 @@ def atualizar_tarefa(id: int, titulo: str = "", descricao: str = "", concluido: 
                 tarefa['concluido'] = concluido
 
             if concluido == True:
-                requests.post(f"http://localhost:8001/notificar?titulo={titulo}&data_finalizacao={datetime.now()}")
+                requests.post(f"http://localhost:8002/notificar?titulo={tarefa['titulo']}&data_finalizacao={datetime.now()}")
 
             return {"mensagem": "OK"}
 
